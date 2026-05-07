@@ -9,7 +9,6 @@ export const useLogin = () => {
 
   const handleSendCode = async () => {
     if (!phone) return;
-
     await sendCodeDB(phone);
     setCodeSent(true);
   };
