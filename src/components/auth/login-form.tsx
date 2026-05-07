@@ -4,11 +4,19 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Field, FieldGroup } from "@/components/ui/field";
+import { VerifyForm } from "@/components/auth/verify-form";
 import { useLogin } from "@/hooks/use-login";
 
+type LoginFormProps = {
+  onSuccess: () => void;
+};
 
-export const LoginForm = () => {
-  const { phone, setPhone, handleSendCode } = useLogin();
+export const LoginForm = ({ onSuccess }: LoginFormProps) => {
+  const { phone, setPhone, codeSent, handleSendCode } = useLogin();
+
+  if (codeSent) {
+    return <VerifyForm phone={phone} onSuccess={onSuccess} />;
+  }
 
   return (
     <div className="w-96 flex flex-col gap-6">
