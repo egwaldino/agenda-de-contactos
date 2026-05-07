@@ -17,7 +17,7 @@ export const useVerify = ({ phone, onSuccess }: UseVerifyProps) => {
     const result = await verifyCodeDB(phone, code);
 
    if (result?.success && result.token) {
-     localStorage.setItem("token", result.token);
+     document.cookie = `token=${result.token}; path=/; max-age=${7 * 24 * 60 * 60};`;
      onSuccess();
    }
   };
