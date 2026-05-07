@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+import { LoginForm } from "@/components/auth/login-form";
 import { AddContact } from "@/components/contacts/add-contact";
 import { GetContact } from "@/components/contacts/get-contact";
 import { SearchContact } from "@/components/contacts/search-contact";
@@ -7,10 +9,19 @@ import { useGetContact } from "@/hooks/use-get-contact";
 import { useSearchContact } from "@/hooks/use-search-contact";
 
 export default function Home() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const { contacts, handleGetContacts } = useGetContact();
   const { query, setQuery, results, isLoading } = useSearchContact();
 
   const displayContacts = query.trim().length > 0 ? results : contacts;
+
+  if (!isAuthenticated) {
+    return (
+      <main className="flex flex-col flex-1 items-center justify-center bg-zinc-900 font-sans dark:bg-black min-h-screen">
+        <LoginForm />
+      </main>
+    );
+  }
 
   return (
     <main className="flex flex-col flex-1 items-center justify-center bg-zinc-900 font-sans dark:bg-black min-h-screen">
@@ -38,4 +49,3 @@ export default function Home() {
     </main>
   );
 }
-
