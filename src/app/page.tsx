@@ -15,13 +15,13 @@ export default function Home() {
 
   const displayContacts = query.trim().length > 0 ? results : contacts;
 
-  if (!isAuthenticated) {
-    return (
-      <main className="flex flex-col flex-1 items-center justify-center bg-zinc-900 font-sans dark:bg-black min-h-screen">
-        <LoginForm />
-      </main>
-    );
-  }
+ if (!isAuthenticated) {
+   return (
+     <main className="flex flex-col flex-1 items-center justify-center bg-zinc-900 font-sans dark:bg-black min-h-screen">
+       <LoginForm onSuccess={() => setIsAuthenticated(true)} />
+     </main>
+   );
+ }
 
   return (
     <main className="flex flex-col flex-1 items-center justify-center bg-zinc-900 font-sans dark:bg-black min-h-screen">
