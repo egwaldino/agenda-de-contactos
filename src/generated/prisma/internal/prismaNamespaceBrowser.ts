@@ -77,7 +77,8 @@ export const ContactScalarFieldEnum = {
   name: 'name',
   email: 'email',
   phone: 'phone',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  userId: 'userId'
 } as const
 
 export type ContactScalarFieldEnum = (typeof ContactScalarFieldEnum)[keyof typeof ContactScalarFieldEnum]

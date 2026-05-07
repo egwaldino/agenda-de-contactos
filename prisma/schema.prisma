@@ -19,6 +19,8 @@ model Contact {
   email     String
   phone     String
   createdAt DateTime @default(now())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
 }
 
 model User {
@@ -27,4 +29,5 @@ model User {
   code       String?
   codeExpiry DateTime?
   createdAt  DateTime  @default(now())
+  contacts    Contact[]
 }
