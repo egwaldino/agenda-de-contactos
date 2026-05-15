@@ -1,12 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Field, FieldGroup } from "@/components/ui/field";
 import { VerifyForm } from "@/components/auth/verify-form";
 import { useLogin } from "@/hooks/use-login";
-import { LockKeyhole } from "lucide-react";
 import Image from "next/image";
 import BgImage from "@/assets/BgImage.png";
 import Logo2 from "@/assets/Logo2.png";
@@ -16,13 +16,16 @@ import GoogleIcon from "@/assets/google.svg";
 import AppleIcon from "@/assets/apple.svg";
 import Link from "next/link";
 
-type LoginFormProps = {
+type SignupFormProps = {
   onSuccess: () => void;
 };
 
-export const LoginForm = ({ onSuccess }: LoginFormProps) => {
+export const SignupForm = ({ onSuccess }: SignupFormProps) => {
   const { phone, setPhone, codeSent, handleSendCode, handleInConstruction } =
     useLogin();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
 
   if (codeSent) {
     return <VerifyForm phone={phone} onSuccess={onSuccess} />;
@@ -38,63 +41,109 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
         <FieldGroup>
           <div className="">
             <p className="text-black text-xl font-semibold">
-              Bem-vindo de volta ao Syncly
+              Cria a tua conta na Syncly
             </p>
             <p className="text-zinc-400 text-sm text-start">
-              Introduz o teu número de telefone para receber um código de
-              verificação.
+              Introduz os teus dados e o número de telefone para receber um
+              código de verificação e criar a tua conta.
             </p>
           </div>
-          <Field>
-            <Label htmlFor="phone" className="text-black text-sm font-normal">
-              Número de telefone
-            </Label>
-            <Input
-              id="phone"
-              type="tel"
-              name="phone"
-              placeholder="+244923456789"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              className="border h-10 border-[#1C4532] text-black text-sm placeholder:text-zinc-400 placeholder:text-sm rounded-md"
-            />
-          </Field>
+          <div className="flex gap-2">
+            <Field>
+              <Label
+                htmlFor="firstName"
+                className="text-black text-sm font-normal"
+              >
+                Nome
+              </Label>
+              <Input
+                id="firstName"
+                type="text"
+                name="firstName"
+                placeholder="João"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                className="border h-10 border-[#1C4532] text-black text-sm placeholder:text-zinc-400 placeholder:text-sm rounded-md"
+              />
+            </Field>
+            <Field>
+              <Label
+                htmlFor="lastName"
+                className="text-black text-sm font-normal"
+              >
+                Apelido
+              </Label>
+              <Input
+                id="lastName"
+                type="text"
+                name="lastName"
+                placeholder="Silva"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                className="border h-10 border-[#1C4532] text-black text-sm placeholder:text-zinc-400 placeholder:text-sm rounded-md"
+              />
+            </Field>
+          </div>
+          <div className="flex gap-2">
+            <Field>
+              <Label htmlFor="email" className="text-black text-sm font-normal">
+                Email
+              </Label>
+              <Input
+                id="email"
+                type="email"
+                name="email"
+                placeholder="email@exemplo.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="border h-10 border-[#1C4532] text-black text-sm placeholder:text-zinc-400 placeholder:text-sm rounded-md"
+              />
+            </Field>
+            <Field>
+              <Label htmlFor="phone" className="text-black text-sm font-normal">
+                Número de telefone
+              </Label>
+              <Input
+                id="phone"
+                type="tel"
+                name="phone"
+                placeholder="+244923456789"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                className="border h-10 border-[#1C4532] text-black text-sm placeholder:text-zinc-400 placeholder:text-sm rounded-md"
+              />
+            </Field>
+          </div>
 
           <Button
             className="w-full h-10 cursor-pointer bg-[#1C4532] text-white hover:bg-[#1C4532]/90 text-sm"
             onClick={handleSendCode}
           >
-            Receber código
+            Continuar
           </Button>
           <p className="text-start text-sm font-light leading-none">
-            Ainda não tem uma conta?{" "}
+            Já tens uma conta?{" "}
             <Link
-              href="/signup"
+              href="/login"
               className="text-[#1C4532] underline font-medium"
             >
-              Regista-te aqui
+              Entrar
             </Link>
           </p>
-          <div className="gap-4 w-full flex items-center justify-center text-center">
-            <LockKeyhole color="#1C4532" size={30} />
-            <p className="text-start text-[12px] font-light leading-none">
-              Vais receber um SMS com um código de 6 dígitos. Pode demorar até
-              60 segundos.
-            </p>
-          </div>
+
         </FieldGroup>
         <div className="flex items-center gap-4">
           <div className="flex-1 h-px bg-gray-300"></div>
-          <span className="text-gray-500 text-sm">ou</span>
+          <span className="text-gray-500 text-sm">ou criar conta com</span>
           <div className="flex-1 h-px bg-gray-300"></div>
         </div>
-        <div className="flex flex-col items-center gap-3 w-full">
+        <div className="flex items-center gap-3 w-full">
           <button
             onClick={handleInConstruction}
             className="flex cursor-pointer items-center justify-center gap-2 w-full py-3 rounded-lg border border-gray-700 bg-white text-[#1C4532] hover:text-white hover:bg-[#1c4532] transition"
           >
             <Image src={GoogleIcon} alt="Google" className="w-5 h-5" />
-            <span className="text-sm font-medium">Continuar com Google</span>
+            <span className="text-sm font-medium">Google</span>
           </button>
 
           <button
@@ -102,7 +151,7 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
             className="flex cursor-pointer items-center justify-center gap-2 w-full py-3 rounded-lg border border-gray-700 bg-white text-[#1C4532] hover:text-white hover:bg-[#1c4532] transition"
           >
             <Image src={AppleIcon} alt="Apple" className="w-5 h-5" />
-            <span className="text-sm font-medium">Continuar com Apple</span>
+            <span className="text-sm font-medium">Apple</span>
           </button>
         </div>
       </div>
